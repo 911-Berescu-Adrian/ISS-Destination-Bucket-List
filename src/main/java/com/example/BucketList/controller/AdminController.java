@@ -3,9 +3,7 @@ package com.example.BucketList.controller;
 import com.example.BucketList.domain.Destination;
 import com.example.BucketList.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AdminController {
@@ -16,4 +14,5 @@ public class AdminController {
     public Destination addDestination(@RequestBody Destination destination) {
         return adminService.saveDestination(destination);
     }
+
 }
