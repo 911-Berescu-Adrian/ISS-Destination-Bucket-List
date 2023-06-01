@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AdminService implements IAdminService {
+public class DestinationService implements IDestinationService{
+
     @Autowired
     private IBucketListRepository bucketListRepository;
 

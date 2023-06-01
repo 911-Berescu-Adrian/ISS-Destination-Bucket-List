@@ -3,7 +3,9 @@ package com.example.BucketList.service;
 import com.example.BucketList.domain.Role;
 import com.example.BucketList.repository.IRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RoleService implements IRoleService {
 
     @Autowired

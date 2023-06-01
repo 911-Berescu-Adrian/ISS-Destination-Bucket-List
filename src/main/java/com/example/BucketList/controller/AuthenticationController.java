@@ -2,17 +2,12 @@ package com.example.BucketList.controller;
 
 import com.example.BucketList.domain.User;
 import com.example.BucketList.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import com.example.BucketList.dtos.UserDTO;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -22,6 +17,7 @@ public class AuthenticationController {
     public AuthenticationController(UserService userService) {
         this.userService = userService;
     }
+
 
     @GetMapping("/index")
     public String home() {
