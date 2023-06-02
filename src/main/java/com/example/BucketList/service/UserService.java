@@ -6,6 +6,8 @@ import com.example.BucketList.domain.User;
 import com.example.BucketList.dtos.UserDTO;
 import com.example.BucketList.repository.IRoleRepository;
 import com.example.BucketList.repository.IUserRepository;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -66,5 +68,10 @@ public class UserService implements IUserService {
         UserDTO UserDTO = new UserDTO();
         UserDTO.setEmail(user.getEmail());
         return UserDTO;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return (UserDetails) userRepository.findByEmail(username);
     }
 }

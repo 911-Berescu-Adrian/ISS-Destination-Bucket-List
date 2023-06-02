@@ -18,4 +18,9 @@ public class UserDTO {
     private String email;
     @NotEmpty(message = "Password should not be empty")
     private String password;
+
+    public UserDTO(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 }
