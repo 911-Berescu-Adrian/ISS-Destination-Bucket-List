@@ -3,14 +3,16 @@ package com.example.BucketList.controller;
 import com.example.BucketList.domain.User;
 import com.example.BucketList.service.UserService;
 import jakarta.validation.Valid;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import com.example.BucketList.dtos.UserDTO;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Objects;
 
-@Controller
+@RestController
 public class AuthenticationController {
     private UserService userService;
 
@@ -25,10 +27,32 @@ public class AuthenticationController {
     }
 
     @GetMapping("/login")
-    public String loginForm(){
-        return "login";
-    }
+    public ResponseEntity<String> login(@RequestBody UserDTO loginRequest) {
+        // Perform login logic
+        boolean isAuthenticated = performLogin(loginRequest.getEmail(), loginRequest.getPassword());
 
+        if (isAuthenticated) {
+            return ResponseEntity.ok("Login successful");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
+        }
+    }
+    private boolean performLogin(String email, String password) {
+        User user = userService.findUserByEmail(email);
+        UserDTO userDTO = new UserDTO();
+        userDTO.setEmail(user.getEmail());
+        userDTO.setPassword(user.getPassword());
+
+        if(userDTO.getEmail() == null) {
+            return false;
+        }
+
+        if(!Objects.equals(userDTO.getPassword(), password)) {
+            return false;
+        }
+        
+        return true;
+    }
     // handler method to handle user registration form request
     @GetMapping("/register")
     public String showRegistrationForm(Model model){
