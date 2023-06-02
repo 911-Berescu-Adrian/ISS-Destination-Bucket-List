@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from 'axios'
+import test from '../../assets/react.svg'
 
 
 export const Login = () => {
@@ -16,13 +17,14 @@ export const Login = () => {
     console.log("Password:", passwd);
 
     // try {
-    //   const response = await axios.post("http://localhost:8080/login", {
+    //   const response = await axios.post(BACKEND_URL, {
     //     email: email,
     //     password: passwd,
     //   });
 
     //   // Login successful, handle the response
     //   console.log("Login successful");
+    //   console.log(response);
     //   // Redirect to a different page or perform additional actions
     // } catch (error) {
     //   // Login failed, handle the error
@@ -35,7 +37,8 @@ export const Login = () => {
 
   return (
     <>
-        <form className="flex flex-col" onSubmit={handleLogin}>
+        <h1 className="text-[3rem] font-bold">Destination Bucket List</h1>
+        <form className="flex flex-col [&>*]:m-6 mt-[10rem]" onSubmit={handleLogin}>
             <div>
               <input 
                 id="email" 
@@ -43,7 +46,8 @@ export const Login = () => {
                 placeholder='Email'
                 name="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}  />
+                onChange={(e) => setEmail(e.target.value)} 
+                className="outline outline-4 outline-[rgb(243,236,224)] rounded-xl h-10" />
             </div>
             <div>
               <input 
@@ -52,17 +56,19 @@ export const Login = () => {
                 placeholder='Password'
                 name="password"
                 value={passwd}
-                onChange={(e) => setPasswd(e.target.value)} />
+                onChange={(e) => setPasswd(e.target.value)}
+                className="outline outline-4 outline-[rgb(243,236,224)] rounded-xl h-10" />
             </div>
-            <div><button type="submit" className="text-2xl">Login</button></div>
+            <div><button type="submit" className="transition duration-300 ease-out rounded-full w-24 h-12 bg-indigo-600 hover:bg-indigo-800 shadow-[0px_8px_0px_rgba(79,70,229,0.25)] hover:shadow-[0px_8px_0px_rgba(50,37,95,0.65)] font-bold">Login</button></div>
         </form>
         Don't have an account?&nbsp;
-        <Link to="/register">
+        <Link to="/register" className="text-blue-500 hover:underline">
             Register here.
         </Link>
-        <div>
+        <div className="flex flex-row justify-center mt-6">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28"><path fill="none" d="M0 0h24v24H0z"></path><path fill="currentColor" d="M7.828 11H20v2H7.828l5.364 5.364-1.414 1.414L4 12l7.778-7.778 1.414 1.414z"></path></svg>
           <Link to="/">
-              Back
+            <p className="text-lg hover:underline">&nbsp;Back</p>
           </Link>
         </div>
     </>
