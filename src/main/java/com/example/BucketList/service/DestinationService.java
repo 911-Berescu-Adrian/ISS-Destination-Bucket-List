@@ -9,14 +9,12 @@ import java.util.List;
 
 @Service
 public class DestinationService {
-
     @Autowired
     private IDestinationRepository destinationRepository;
 
     public Destination saveDestination(Destination destination) {
         return destinationRepository.save(destination);
     }
-
     public List<Destination> getAllDestinations() {
         return destinationRepository.findAll();
     }
