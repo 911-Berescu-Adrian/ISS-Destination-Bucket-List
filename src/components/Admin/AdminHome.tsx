@@ -173,6 +173,29 @@ export const AdminHome = () => {
     }
   }
 
+  async function getCityDescription(cityName: string): Promise<string | null> {
+    try {
+      const response = await axios.get(
+        `http://api.geonames.org/wikipediaSearchJSON?q=${encodeURIComponent(
+          cityName
+        )}&maxRows=1&username=demo`
+      );
+
+      const { geonames } = response.data;
+
+      if (geonames.length > 0) {
+        const description = geonames[0].summary;
+        const shortDescription = description.substring(0, 100);
+        return shortDescription;
+      } else {
+        return null; // City description not found
+      }
+    } catch (error) {
+      console.error("Error retrieving city description:", error);
+      return null;
+    }
+  }
+
   // Accessing destinations
   destinations.forEach((destination) => {
     console.log("Title:", destination.title);
@@ -191,6 +214,13 @@ export const AdminHome = () => {
         console.log(`Image URL for ${destination.title}: ${imageUrl}`);
       } else {
         console.log(`No image found for ${destination.title}`);
+      }
+    });
+    getCityDescription(destination.title).then((description) => {
+      if (description) {
+        console.log(`Description for ${destination.title}: ${description}`);
+      } else {
+        console.log(`Description not found for ${destination.title}`);
       }
     });
   });
