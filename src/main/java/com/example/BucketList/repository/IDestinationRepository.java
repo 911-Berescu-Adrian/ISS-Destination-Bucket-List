@@ -2,7 +2,9 @@ package com.example.BucketList.repository;
 
 import com.example.BucketList.domain.Destination;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface IBucketListRepository extends JpaRepository<Destination, Long> {
 
+@Repository
+public interface IDestinationRepository extends JpaRepository<Destination, Long> {
 }

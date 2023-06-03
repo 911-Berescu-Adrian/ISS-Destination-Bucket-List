@@ -1,4 +1,4 @@
-package com.example.BucketList.config;
+package com.example.BucketList.security;
 
 import com.example.BucketList.domain.Role;
 import com.example.BucketList.domain.User;
@@ -11,19 +11,19 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 
 @Component
-public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {
-
+public class SetupLoader implements ApplicationListener<ContextRefreshedEvent> {
     boolean alreadySetup = false;
 
     @Autowired
     private IUserRepository userRepository;
-
     @Autowired
     private IRoleRepository roleRepository;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 

@@ -1,26 +1,25 @@
 package com.example.BucketList.dtos;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@Entity
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Table(name="users_login_data")
 public class UserDTO {
-    private Long id;
-    @NotEmpty(message = "Email should not be empty")
-    @Email
-    private String email;
-    @NotEmpty(message = "Password should not be empty")
-    private String password;
 
-    public UserDTO(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long userId;
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false, unique = true)
+    private String password;
 }

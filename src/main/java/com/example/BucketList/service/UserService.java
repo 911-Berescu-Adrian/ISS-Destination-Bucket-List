@@ -1,77 +1,31 @@
 package com.example.BucketList.service;
 
-import com.example.BucketList.domain.Destination;
-import com.example.BucketList.domain.Role;
 import com.example.BucketList.domain.User;
-import com.example.BucketList.dtos.UserDTO;
-import com.example.BucketList.repository.IRoleRepository;
 import com.example.BucketList.repository.IUserRepository;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
-public class UserService implements IUserService {
+public class UserService {
 
+    @Autowired
     private IUserRepository userRepository;
-    private IRoleRepository roleRepository;
-    private PasswordEncoder passwordEncoder;
 
-    public UserService(IUserRepository userRepository, IRoleRepository roleRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
+    public User saveUser(User user) {
+        return userRepository.save(user);
     }
 
-    @Override
-    public User saveDestination(Long userId, Destination destination) {
-        User user = this.userRepository.findById(userId).get();
-        List<Destination> bucketList = user.getBucketList();
-        bucketList.add(destination);
-        return this.userRepository.save(user);
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
-    @Override
-    public void saveUser(UserDTO UserDTO) {
-        User user = new User();
-        user.setEmail(UserDTO.getEmail());
-        // encrypt the password using spring security
-        user.setPassword(passwordEncoder.encode(UserDTO.getPassword()));
-        Role role = roleRepository.findByName("USER");
-        user.setRoles(List.of(role));
-
-        userRepository.save(user);
+    public User getSingleUser(Long userId) {
+        return userRepository.findById(userId).get();
     }
 
-    @Override
-    public void deleteUser(Long userId) {
-        userRepository.deleteById(userId);
-    }
-
-    @Override
-    public User findUserByEmail(String email) {
+    public User findByEmail(String email) {
         return userRepository.findByEmail(email);
-    }
-
-    @Override
-    public List<UserDTO> findAllUsers() {
-        List<User> users = userRepository.findAll();
-        return users.stream()
-                .map((user) -> mapToUserDTO(user))
-                .collect(Collectors.toList());
-    }
-
-    private UserDTO mapToUserDTO(User user){
-        UserDTO UserDTO = new UserDTO();
-        UserDTO.setEmail(user.getEmail());
-        return UserDTO;
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return (UserDetails) userRepository.findByEmail(username);
     }
 }
