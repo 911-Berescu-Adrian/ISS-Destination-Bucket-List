@@ -173,28 +173,34 @@ export const AdminHome = () => {
     }
   }
 
+  function cutLastWord(str: string): string {
+    const words = str.trim().split(" ");
+    words.pop(); // Remove the last word from the array
+    return words.join(" ");
+  }
+
   async function getCityDescription(cityName: string): Promise<string | null> {
     try {
       const response = await axios.get(
-        `http://api.geonames.org/wikipediaSearchJSON?q=${encodeURIComponent(
-          cityName
-        )}&maxRows=1&username=demo`
+        `http://api.geonames.org/wikipediaSearchJSON?q=${encodeURIComponent(cityName)}&maxRows=1&username=callisto8008`
       );
-
+  
       const { geonames } = response.data;
-
-      if (geonames.length > 0) {
+  
+      if (geonames && geonames.length > 0) {
         const description = geonames[0].summary;
-        const shortDescription = description.substring(0, 100);
-        return shortDescription;
+        const shortDescription = description.substring(0, 120);
+        const actualDescription = cutLastWord(shortDescription) + "...";
+        return actualDescription;
       } else {
-        return null; // City description not found
+        return null; 
       }
     } catch (error) {
       console.error("Error retrieving city description:", error);
       return null;
     }
   }
+  
 
   // Accessing destinations
   destinations.forEach((destination) => {
