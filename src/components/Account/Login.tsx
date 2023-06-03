@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from 'axios'
-import test from '../../assets/react.svg'
 
 
 export const Login = () => {
@@ -17,7 +16,7 @@ export const Login = () => {
     console.log("Password:", passwd);
 
     // try {
-    //   const response = await axios.post(BACKEND_URL, {
+    //   const response = await axios.post(BACKEND_URL+'/login', {
     //     email: email,
     //     password: passwd,
     //   });
