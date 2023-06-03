@@ -23,7 +23,6 @@ public class LoginController {
         if(user != null) {
             return new ResponseEntity<String>("Login successful", HttpStatus.OK);
         }
-
         return new ResponseEntity<String>("Email or password are invalid!", HttpStatus.UNAUTHORIZED);
     }
 }
