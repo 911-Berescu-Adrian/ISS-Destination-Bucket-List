@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Objects;
+
 @Controller
 @RequestMapping
 @CrossOrigin(origins = "http://localhost:5173")
@@ -21,12 +23,18 @@ public class LoginController {
     private UserService userService;
 
     @PostMapping(value="/login")
-    public ResponseEntity<String> login(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<String> login(@RequestBody String email, @RequestBody String password) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setEmail(email);
+        userDTO.setPassword(password);
         User user = userService.findByEmail(userDTO.getEmail());
         if(user != null) {
-            return new ResponseEntity<>("Login successful!", HttpStatus.OK);
+            if(Objects.equals(userDTO.getPassword(), user.getPassword())) {
+                return new ResponseEntity<>("Login successful!", HttpStatus.OK);
+            }
+            return new ResponseEntity<>("Email or password is invalid", HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity<>("Email or password are invalid!", HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>("Email is invalid!", HttpStatus.UNAUTHORIZED);
     }
 
     @PostMapping(value="/register")
