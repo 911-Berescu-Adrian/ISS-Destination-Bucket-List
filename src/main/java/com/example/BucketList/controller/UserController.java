@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -106,5 +109,20 @@ public class UserController {
     @GetMapping("/{userId}")
     public ResponseEntity<User> getSingleUser(@PathVariable Long userId) {
         return new ResponseEntity<>(userService.getSingleUser(userId), HttpStatus.OK);
+    }
+
+    @GetMapping("/geolocation")
+    public ResponseEntity<Object[]> getLocations() {
+
+        String baseUrl = "https://geocode.maps.co/search?q=";
+        String city = "Madrid";
+        String encodedCity = UriComponentsBuilder.fromUriString(city).toUriString();
+
+        String url = baseUrl + encodedCity;
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        ResponseEntity<Object[]> response = restTemplate.getForEntity(url, Object[].class);
+        return response;
     }
 }
