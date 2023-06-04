@@ -23,9 +23,11 @@ public class BucketListApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/login").allowedOrigins("http://localhost:8080");
-				registry.addMapping("/destination").allowedOrigins("http://localhost:8080");
-				registry.addMapping("/user").allowedOrigins("http://localhost:8080");
+				registry.addMapping("/*").allowedOrigins("*").allowedMethods("GET", "POST", "OPTIONS", "PUT")
+						.allowedHeaders("Content-Type", "X-Requested-With", "accept", "Origin", "Access-Control-Request-Method",
+								"Access-Control-Request-Headers")
+						.exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
+						.allowCredentials(true).maxAge(3600);
 			}
 		};
 	}
