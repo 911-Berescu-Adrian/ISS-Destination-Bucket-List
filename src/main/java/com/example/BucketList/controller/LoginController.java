@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
@@ -22,14 +19,11 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
-    @PostMapping(value="/login")
-    public ResponseEntity<String> login(@RequestBody String email, @RequestBody String password) {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setEmail(email);
-        userDTO.setPassword(password);
-        User user = userService.findByEmail(userDTO.getEmail());
-        if(user != null) {
-            if(Objects.equals(userDTO.getPassword(), user.getPassword())) {
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public ResponseEntity<String> login(@RequestBody UserDTO request) {
+        User user = userService.findByEmail(request.getEmail());
+        if (user != null) {
+            if (Objects.equals(request.getPassword(), user.getPassword())) {
                 return new ResponseEntity<>("Login successful!", HttpStatus.OK);
             }
             return new ResponseEntity<>("Email or password is invalid", HttpStatus.UNAUTHORIZED);
@@ -37,10 +31,10 @@ public class LoginController {
         return new ResponseEntity<>("Email is invalid!", HttpStatus.UNAUTHORIZED);
     }
 
-    @PostMapping(value="/register")
+    @PostMapping(value = "/register")
     public ResponseEntity<String> register(@RequestBody UserDTO userDTO) {
         User user = userService.findByEmail(userDTO.getEmail());
-        if(user == null) {
+        if (user == null) {
             return new ResponseEntity<>("Register successful!", HttpStatus.OK);
         }
         return new ResponseEntity<>("You already have an account with that email address!", HttpStatus.UNAUTHORIZED);
