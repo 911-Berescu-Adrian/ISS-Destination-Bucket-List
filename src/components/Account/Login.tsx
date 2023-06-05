@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from 'axios'
-
+import {BACKEND_URL} from '../../constants.ts'
 
 export const Login = () => {
 
@@ -10,30 +10,22 @@ export const Login = () => {
 
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-
     e.preventDefault();
     console.log("Email:", email);
     console.log("Password:", passwd);
-
-    // try {
-    //   const response = await axios.post(BACKEND_URL+'/login', {
-    //     email: email,
-    //     password: passwd,
-    //   });
-
-    //   // Login successful, handle the response
-    //   console.log("Login successful");
-    //   console.log(response);
-    //   // Redirect to a different page or perform additional actions
-    // } catch (error) {
-    //   // Login failed, handle the error
-    //   console.log("Login failed");
-    // }
-
-
+  
+    axios.post(BACKEND_URL+'/login', {
+      email: email,
+      password: passwd
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   };
-
-
+  
   return (
     <>
         <h1 className="text-[3rem] font-bold">Destination Bucket List</h1>
@@ -46,7 +38,7 @@ export const Login = () => {
                 name="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)} 
-                className="outline outline-4 outline-[rgb(243,236,224)] rounded-xl h-10" />
+                className="outline outline-4 p-2 outline-[rgb(243,236,224)] rounded-xl h-10" />
             </div>
             <div>
               <input 
@@ -56,7 +48,7 @@ export const Login = () => {
                 name="password"
                 value={passwd}
                 onChange={(e) => setPasswd(e.target.value)}
-                className="outline outline-4 outline-[rgb(243,236,224)] rounded-xl h-10" />
+                className="outline outline-4 p-2 outline-[rgb(243,236,224)] rounded-xl h-10" />
             </div>
             <div><button type="submit" className="transition duration-300 ease-out rounded-full w-24 h-12 bg-indigo-600 hover:bg-indigo-800 shadow-[0px_10px_0px_rgba(79,70,229,0.25)] hover:shadow-[0px_10px_0px_rgba(50,37,95,0.65)] hover:drop-shadow-[0_0px_5px_rgba(79,70,229,0.75)] font-bold">Login</button></div>
         </form>
