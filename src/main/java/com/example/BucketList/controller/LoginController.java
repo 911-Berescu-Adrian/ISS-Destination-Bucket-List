@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Controller
 @RequestMapping
@@ -21,9 +22,9 @@ public class LoginController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<String> login(@RequestBody UserDTO request) {
-        User user = userService.findByEmail(request.getEmail());
-        if (user != null) {
-            if (Objects.equals(request.getPassword(), user.getPassword())) {
+        Optional<User> user = Optional.ofNullable(userService.findByEmail(request.getEmail()));
+        if (user.isPresent()) {
+            if (Objects.equals(request.getPassword(), user.get().getPassword())) {
                 return new ResponseEntity<>("Login successful!", HttpStatus.OK);
             }
             return new ResponseEntity<>("Email or password is invalid", HttpStatus.UNAUTHORIZED);

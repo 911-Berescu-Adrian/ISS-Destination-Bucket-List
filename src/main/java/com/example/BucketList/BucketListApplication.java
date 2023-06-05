@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
 @Import(CorsConfig.class)
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
 public class BucketListApplication {
 
 	public static void main(String[] args) {
