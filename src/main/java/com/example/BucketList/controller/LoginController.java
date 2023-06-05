@@ -19,7 +19,7 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<String> login(@RequestBody UserDTO request) {
         User user = userService.findByEmail(request.getEmail());
         if (user != null) {
