@@ -1,12 +1,16 @@
 package com.example.BucketList.service;
 
 import com.example.BucketList.domain.Destination;
+import com.example.BucketList.domain.Role;
 import com.example.BucketList.domain.User;
+import com.example.BucketList.dtos.UserDTO;
+import com.example.BucketList.dtos.UserPasswordDTO;
 import com.example.BucketList.repository.IBucketListRepository;
 import com.example.BucketList.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,6 +24,21 @@ public class UserService {
     @Autowired
     private IBucketListRepository bucketListRepository;
 
+
+    public String saveUser(UserDTO userDTO) {
+        User user = new User();
+
+        List<Role> roles = new ArrayList<>();
+        List<Destination> bucketList = new ArrayList<>();
+
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(userDTO.getPassword());
+        user.setRoles(roles);
+        user.setBucketList(bucketList);
+        this.userRepository.save(user);
+        return "User successfully added!";
+    }
+
     public String savePrivateDestination(User user, Destination destination) {
         List<Destination> bl = user.getBucketList();
         bl.add(destination);
@@ -27,24 +46,10 @@ public class UserService {
         return "+" + user.getEmail() + " added private destination";
     }
 
-    public String savePublicDestination(Destination destination) {
-        bucketListRepository.save(destination);
-        return "+" + "admin added public destination";
-    }
-
     public String deleteUser(Long userId) {
         User user = userRepository.findById(userId).get();
         userRepository.deleteById(userId);
         return "+" + user.getEmail() + " has been deleted";
-    }
-
-    public String deletePublicDestination(Long destinationId) {
-        Destination dest = bucketListRepository.findById(destinationId).get();
-        if(dest.getStartDate() == null && dest.getEndDate() == null) {
-            bucketListRepository.deleteById(destinationId);
-            return "+" + "admin has deleted a destination with id " + destinationId;
-        }
-        return "+" + "admin has not been able to delete destination with id " + destinationId;
     }
 
     public String deletePrivateDestination(User user, Long destinationId) {
@@ -78,5 +83,11 @@ public class UserService {
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public User updatePassword(Long userId, UserPasswordDTO userPasswordDTO) {
+        User user = userRepository.findById(userId).get();
+        user.setPassword(userPasswordDTO.getPassword());
+        return userRepository.findByEmail(user.getEmail());
     }
 }
