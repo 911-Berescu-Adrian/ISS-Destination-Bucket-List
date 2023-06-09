@@ -9,6 +9,8 @@ import { AdminAdd } from './components/Admin/AdminAdd'
 import { AdminUpdate } from './components/Admin/AdminUpdate'
 import { UserAdd } from './components/User/UserAdd'
 import { UserUpdate } from './components/User/UserUpdate'
+import { UserRemove } from './components/User/UserRemove'
+import { AdminRemove } from './components/Admin/AdminRemove'
 
 
 function App() {
@@ -24,9 +26,12 @@ function App() {
           <Route path='/admin/home' element={<AdminHome/>} ></Route>
           <Route path='/admin/add' element={<AdminAdd/>}></Route>
           <Route path='/admin/update' element={<AdminUpdate/>}></Route>
+          <Route path='/admin/remove' element={<AdminRemove/>}></Route>
           <Route path='/home' element={<UserHome/>}></Route>
           <Route path='/add' element={<UserAdd/>}></Route>
           <Route path='/update' element={<UserUpdate/>}></Route>
+          <Route path='/remove' element={<UserRemove/>}></Route>
+
         </Routes>
       </Router>
     </>
