@@ -1,8 +1,8 @@
 interface Destination {
     title: string;
-    geolocation: string | null;
-    image: string | null;
-    description: string | null;
+    geolocation: string;
+    image: string;
+    description: string;
     startDate: Date;
     endDate: Date;
   }

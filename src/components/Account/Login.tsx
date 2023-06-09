@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios'
 import {BACKEND_URL} from '../../constants.ts'
 
@@ -7,6 +7,8 @@ export const Login = () => {
 
   const [email, setEmail] = useState('');
   const [passwd, setPasswd] = useState('');
+
+  const navigate = useNavigate();
 
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -19,6 +21,11 @@ export const Login = () => {
       password: passwd
     })
     .then(function (response) {
+      if(response.data=="ADMIN")
+        navigate("/admin/home");
+      else
+        if(response.data=="USER")
+        navigate("/home");
       console.log(response);
     })
     .catch(function (error) {

@@ -1,18 +1,29 @@
+import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../constants";
 
 
 export const Register = () => {
 
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [passwd, setPasswd] = useState('');
 
-
-  const validateRegister = async () => {
-    
-    
-
-    console.log()
+  const validateRegister = async (e: { preventDefault: () => void; }) => {
+    try {
+      e.preventDefault();
+      console.log(email,passwd);
+      const response = await axios.post(BACKEND_URL+"/register", {
+        email: email,
+        password: passwd,
+      });
+      console.log(response.data); // Handle the response data here
+      navigate('/home');
+    } catch (error) {
+      console.log(error); // Handle the error here
+    }
   };
 
 
