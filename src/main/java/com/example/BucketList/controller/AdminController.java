@@ -17,7 +17,7 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
-    @PostMapping("/destination")
+    @RequestMapping(value = "/destination", method = RequestMethod.POST)
     public ResponseEntity<String> saveDestination(@RequestBody Destination destination) {
         return new ResponseEntity<>(adminService.saveDestination(destination), HttpStatus.OK);
     }
